@@ -50,20 +50,22 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const API_KEY='8f2b07d4';
 
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const query = "batman";
+  
+  const API_KEY='8f2b07d4';
+  const tempQuery = "batman";
 
   useEffect(function(){
       async function fetchMovies(){
         try{
           setIsLoading(true);
+          setError("");
           const res = await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=${API_KEY}&s=${query}`);
           if(!res.ok){
             throw new Error('Something Went Wrong Please Try Again Later');
@@ -84,13 +86,18 @@ export default function App() {
           setIsLoading(false);
         }
       }
+      if(query.length<3){
+        setMovies([]);
+        setError("");
+        return;
+      }
       fetchMovies();
-  },[]);
+  },[query]);
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResult movies={movies} />
       </NavBar>
 
@@ -134,7 +141,7 @@ function NavBar({ children }) {
 function NumResult({ movies }) {
   return (
     <p className="num-results">
-      Found <strong>{movies.length}</strong> results
+      Found <strong>{movies && movies.length}</strong> results
     </p>
   );
 }
@@ -146,8 +153,8 @@ function Logo() {
     </div>
   );
 }
-function Search() {
-  const [query, setQuery] = useState("");
+function Search({query, setQuery}) {
+  
   return (
     <input
       className="search"
