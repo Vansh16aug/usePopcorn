@@ -28,7 +28,7 @@ body {
   background-color: var(--color-background-900);
   padding: 2.4rem;
 }
-
+.box::-webkit-scrollbar, .list::-webkit-scrollbar {   display: none;   scroll-behavior: smooth; }
 /* ******* */
 
 .nav-bar {
@@ -54,7 +54,7 @@ body {
   max-width: 42rem;
   background-color: var(--color-background-500);
   border-radius: 0.9rem;
-  overflow: auto;
+  overflow: scroll;
   position: relative;
 }
 
@@ -138,7 +138,7 @@ body {
 .list {
   list-style: none;
   padding: 0.8rem 0;
-  overflow:auto;
+  overflow: scroll;
 }
 
 .list-watched {
@@ -226,7 +226,7 @@ body {
 .summary div {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2.4rem;
   font-size: 1.6rem;
   font-weight: 600;
 }

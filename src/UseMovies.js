@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 const API_KEY = "8f2b07d4";
-export function UseMovies(query, callback) {
+
+export function useMovies(query) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
   useEffect(
     function () {
-      callback?.();
+      // callback?.();
+
       const controller = new AbortController();
 
       async function fetchMovies() {
@@ -30,6 +33,7 @@ export function UseMovies(query, callback) {
           setError("");
         } catch (err) {
           if (err.name !== "AbortError") {
+            console.log(err.message);
             setError(err.message);
           }
         } finally {
@@ -43,7 +47,6 @@ export function UseMovies(query, callback) {
         return;
       }
 
-      //   handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -52,5 +55,6 @@ export function UseMovies(query, callback) {
     },
     [query]
   );
+
   return { movies, isLoading, error };
 }
